@@ -1,88 +1,113 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+class Reserva {
+  final String habitacion;
+  final String nombreCompleto;
+  final String documento;
+  final String celular;
+  final String fechaEntrada;
+  final String fechaSalida;
+  final String estado;
+
+  Reserva({
+    required this.habitacion,
+    required this.nombreCompleto,
+    required this.documento,
+    required this.celular,
+    required this.fechaEntrada,
+    required this.fechaSalida,
+    required this.estado
+  });
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ReservasHotel extends StatelessWidget {
+  final List<Reserva> reservas = [
+    Reserva(habitacion: "Suite Deluxe", nombreCompleto: "Juan Pérez", documento: "1020304050", celular: "3001234567", fechaEntrada: "2025-03-10", fechaSalida: "2025-03-15", estado: "Confirmada"),
+    Reserva(habitacion: "Estándar", nombreCompleto: "Ana Gómez", documento: "1122334455", celular: "3109876543", fechaEntrada: "2025-04-01", fechaSalida: "2025-04-05", estado: "Pendiente"),
+    Reserva(habitacion: "Suite Presidencial", nombreCompleto: "Carlos Rodríguez", documento: "2233445566", celular: "3205678910", fechaEntrada: "2025-05-20", fechaSalida: "2025-05-25", estado: "Confirmada"),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Perfil de Usuario'),
-        ),
-        body: const UserPage(),
-      ),
-    );
-  }
-}
-
-class UserPage extends StatelessWidget {
-  const UserPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-              borderRadius: BorderRadius.circular(10),
+    return Scaffold(
+      appBar: AppBar(title: Text("Reservas de Hotel")),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(16.0),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 5)]),
+              child: Text("Administrador: Milton José Berrio Julio", style: TextStyle(fontWeight: FontWeight.bold)),
             ),
-            child: const Text(
-              'Usuario: Pepe Perez',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 3, // Cantidad de tarjetas
-              itemBuilder: (context, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: const BorderSide(color: Colors.black),
-                  ),
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          color: Colors.grey[300],
-                          child: const Center(
-                            child: Text('IMG'),
+            SizedBox(height: 10),
+            Expanded(
+              child: ListView.builder(
+                itemCount: reservas.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    elevation: 5,
+                    margin: EdgeInsets.symmetric(vertical: 8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
+                                child: Center(child: Icon(Icons.image, color: Colors.grey[700]))
+                              ),
+                              SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Habitación: ${reservas[index].habitacion}", style: TextStyle(fontWeight: FontWeight.bold)),
+                                  Text("Nombre: ${reservas[index].nombreCompleto}"),
+                                  Text("Documento: ${reservas[index].documento}"),
+                                  Text("Celular: ${reservas[index].celular}"),
+                                  Text("Entrada: ${reservas[index].fechaEntrada}"),
+                                  Text("Salida: ${reservas[index].fechaSalida}"),
+                                  Text("Estado: ${reservas[index].estado}", style: TextStyle(color: Colors.blue)),
+                                ],
+                              ),
+                            ],
                           ),
-                        ),
-                        const SizedBox(width: 20),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Placa: ERF888',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold)),
-                            Text('Conductor: Juan Carlos'),
-                            Text('Empresa: XYZ'),
-                          ],
-                        ),
-                      ],
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {},
+                                child: Text("Aceptar"),
+                              ),
+                              SizedBox(width: 10),
+                              ElevatedButton(
+                                onPressed: () {},
+                                child: Text("Cancelar"),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: ReservasHotel(),
+));
 }
